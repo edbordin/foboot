@@ -1,3 +1,12 @@
+# Initial notes for porting to iCEBreaker with micropython
+
+* For the simplest operation, I want to remove the usb core for now and rely only on the ftdi chip for host comms. Will probably break a bunch of stuff if not careful.
+* need to define a litex board for icebreaker (see `litex_boards.partner.platforms.fomu*`). ignore the usb and touch pins. clk is called `clk48` even though foboot-bitstream defines `clk_freq = int(12e6)`. define the spiflash pins
+* replace usb-based uart with hardware uart interfaced to the ftdi chip
+* modify micropython uart HAL code to use new uart hardware
+* Use `--bios micropython.bin` to bake micropython in as the software
+* If debugging, use `--with-debug spi` or `--with-debug uart`
+
 # Foboot: The Bootloader for Fomu
 
 Foboot is a failsafe bootloader for Fomu.  It exposes a DFU interface to the host.  Foboot comes in two halves: A Software half and a Hardware half.  These two halves are integrated into a single "bitstream" that is directly loaded onto an ICE40UP5k board, such as Fomu.
